@@ -22,8 +22,6 @@ function App() {
           {/* private routes */}
           <Route index element={ <Home />}/>
         </Route>
-       
-
       </Routes> 
     </main>
   )
