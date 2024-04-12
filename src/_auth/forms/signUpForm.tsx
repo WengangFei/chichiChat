@@ -1,10 +1,10 @@
-import React from 'react'
+import { Button } from "@/components/ui/button";
 
 function SignUpForm() {
   return (
     <div>
-      sign up page
-    </div>
+    <Button>Click me</Button>
+  </div>
   )
 }
 
