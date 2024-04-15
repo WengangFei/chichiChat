@@ -1,0 +1,6 @@
+export type INewUser = {
+    username: string,
+    email: string,
+    password: string,
+    repassword: string,
+}

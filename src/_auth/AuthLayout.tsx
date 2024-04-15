@@ -2,11 +2,11 @@ import { Outlet, Navigate } from 'react-router-dom';
 
 function AuthLayout() {
 
-  const isAuthenticated = true;
-
+  const isAuthenticated = false;
+  
   return (
 
-    <div>
+    <>
       { isAuthenticated && (
         <div>
           You are signed in already, this page is unavailable!
@@ -14,12 +14,21 @@ function AuthLayout() {
       )}
       Auth lay out page
 
-      <div>
-      { isAuthenticated ? <Navigate to='/' /> : <Outlet />   }
       
-      </div>
+      { isAuthenticated ? <Navigate to='/' /> : (
+        <>
+          <section className='flex flex-1 justify-center items-center flex-col py-10'>
+            <Outlet />
+          </section>
+          
+          <img src={'/assets/images/sign-up.jpeg'} alt='sign-up logo'
+          className='w-3/5 h-screen hidden xl:block'
+          />
+        </>
+      )}
       
-    </div>
+      </>
+   
   )
 }
 
