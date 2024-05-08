@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod";
 import { Button } from "@/components/ui/button"
+
 import {
   Form,
   FormControl,
@@ -12,26 +13,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+
 import { Input } from "@/components/ui/input"
 import Loader from "@/components/shared/loader";
 import { Link } from 'react-router-dom';
 import { createNewUser } from "@/lib/appwrite/api";
+import { signUpValidation } from "@/lib/validation";
 
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must have at least 2 characters.",
-  }),
-  email:z.string().email(),
-
-  password: z.string().min(8,{
-    message: 'Password must be at least 8 characters.'
-  }),
-
-  repassword: z.string().min(8,{
-    message:'Passwords are not matching.'
-  })
-})
 
 
 function SignUpForm() {
@@ -40,19 +29,24 @@ function SignUpForm() {
   const[isLoading,setIsLoading] = useState(false);
 
   // 1. Define form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  // Zod schemas are TypeScript types. This means can use them 
+  // to infer the type of sign up form data.
+  type signUpFormType = z.infer<typeof signUpValidation>;
+  const form = useForm<signUpFormType>({
+    resolver: zodResolver(signUpValidation),
     defaultValues: {
+      name:"",
       username: "",
       email:"",
       password:"",
-      repassword:"",
     },
   })
 
+
+
   // 2. Define a submit handler.
   // async function to create a user, it takes some time.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpValidation>) {
     // Do something with the form values.
     // create a user account 
     const newUser = await createNewUser(values);
@@ -72,6 +66,21 @@ function SignUpForm() {
         <h2 className="font-bold text-xl my-3">ChiChiChat Account</h2>
    
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3 w-full mt-4">
+       
+        <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name:</FormLabel>
+                <FormControl>
+                  <Input placeholder="put your name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
           <FormField
             control={form.control}
             name="username"
@@ -108,20 +117,6 @@ function SignUpForm() {
                 <FormLabel>Password:</FormLabel>
                 <FormControl>
                   <Input placeholder="put your password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="repassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Re-Password:</FormLabel>
-                <FormControl>
-                  <Input placeholder="put your password again" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

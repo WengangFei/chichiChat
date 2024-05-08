@@ -6,8 +6,8 @@ import { Home } from './_root/pages';
 import './global.css';
 import { Routes , Route } from 'react-router-dom';
 
-function App() {
 
+function App() {
 
   return (
     <main className='flex h-screen'>

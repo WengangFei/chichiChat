@@ -22,7 +22,7 @@ function AuthLayout() {
           </section>
           
           <img src={'/assets/images/sign-up.jpeg'} alt='sign-up logo'
-          className='w-3/5 h-screen hidden xl:block'
+          className='w-3/5 h-screen hidden md:block'
           />
         </>
       )}
