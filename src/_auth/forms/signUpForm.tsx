@@ -19,7 +19,10 @@ import Loader from "@/components/shared/loader";
 import { Link } from 'react-router-dom';
 import { signUpValidation } from "@/lib/validation";
 import { useToast } from "@/components/ui/use-toast";
+<<<<<<< HEAD
 import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
+=======
+>>>>>>> 561cac9 (added)
 
 
 
@@ -27,10 +30,16 @@ import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
 function SignUpForm() {
 
   // loader is loading when submit the form
+<<<<<<< HEAD
   // const[isLoading,setIsLoading] = useState(false);
   const { toast } = useToast();
   console.log(useCreateUserAccount())
   const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount();
+=======
+  const[isLoading,setIsLoading] = useState(false);
+  // adding toster
+  const { toast } = useToast();
+>>>>>>> 561cac9 (added)
 
   // 1. Define form.
   // Zod schemas are TypeScript types. This means can use them 
