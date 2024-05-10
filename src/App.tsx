@@ -5,6 +5,7 @@ import RootLayout from './_root/RootLayout';
 import { Home } from './_root/pages';
 import './global.css';
 import { Routes , Route } from 'react-router-dom';
+import { Toaster } from "@/components/ui/toaster";
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
           <Route index element={ <Home />}/>
         </Route>
       </Routes> 
+      {/* toast to prompt sign up result */}
+      <Toaster />
     </main>
   )
 }

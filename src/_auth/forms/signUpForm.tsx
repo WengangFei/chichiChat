@@ -19,6 +19,7 @@ import Loader from "@/components/shared/loader";
 import { Link } from 'react-router-dom';
 import { createNewUser } from "@/lib/appwrite/api";
 import { signUpValidation } from "@/lib/validation";
+import { useToast } from "@/components/ui/use-toast";
 
 
 
@@ -27,12 +28,14 @@ function SignUpForm() {
 
   // loader is loading when submit the form
   const[isLoading,setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   // 1. Define form.
   // Zod schemas are TypeScript types. This means can use them 
   // to infer the type of sign up form data.
   type signUpFormType = z.infer<typeof signUpValidation>;
   const form = useForm<signUpFormType>({
+    //resolver is to connect zod to the form data validation.
     resolver: zodResolver(signUpValidation),
     defaultValues: {
       name:"",
@@ -50,8 +53,14 @@ function SignUpForm() {
     // Do something with the form values.
     // create a user account 
     const newUser = await createNewUser(values);
-    console.log(newUser);
-    console.log(values)
+    // useToast to prompt if sign up failed.
+    if(!newUser){
+      return toast({
+        title:'Sign Up failed. Please try again.'
+      })
+    }
+    console.log(newUser);//data base form
+    console.log(values)//user sign up form 
   }
 
 
