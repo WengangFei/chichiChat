@@ -17,9 +17,9 @@ import {
 import { Input } from "@/components/ui/input"
 import Loader from "@/components/shared/loader";
 import { Link } from 'react-router-dom';
-import { createNewUser } from "@/lib/appwrite/api";
 import { signUpValidation } from "@/lib/validation";
 import { useToast } from "@/components/ui/use-toast";
+import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
 
 
 
@@ -27,8 +27,10 @@ import { useToast } from "@/components/ui/use-toast";
 function SignUpForm() {
 
   // loader is loading when submit the form
-  const[isLoading,setIsLoading] = useState(false);
+  // const[isLoading,setIsLoading] = useState(false);
   const { toast } = useToast();
+  console.log(useCreateUserAccount())
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount();
 
   // 1. Define form.
   // Zod schemas are TypeScript types. This means can use them 
@@ -52,7 +54,7 @@ function SignUpForm() {
   async function onSubmit(values: z.infer<typeof signUpValidation>) {
     // Do something with the form values.
     // create a user account 
-    const newUser = await createNewUser(values);
+    const newUser = await createUserAccount(values);
     // useToast to prompt if sign up failed.
     if(!newUser){
       return toast({
@@ -132,9 +134,8 @@ function SignUpForm() {
             )}
           />
 
-          <Button type="submit" className="mt-5 bg-purple font-bold" 
-          onClick={()=>setIsLoading(true)}>
-            { isLoading ? <Loader /> : 'Sign Up' }
+          <Button type="submit" className="mt-5 bg-purple font-bold">
+            { isCreatingUser ? <Loader /> : 'Sign Up' }
           </Button>
           <p className="text-xs">Already have a account? 
             <Link to='/sign-in' className="text-purple font-bold mx-3 underline text-sm">
