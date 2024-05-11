@@ -19,10 +19,7 @@ import Loader from "@/components/shared/loader";
 import { Link } from 'react-router-dom';
 import { signUpValidation } from "@/lib/validation";
 import { useToast } from "@/components/ui/use-toast";
-<<<<<<< HEAD
-import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
-=======
->>>>>>> 561cac9 (added)
+import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 
 
 
@@ -30,16 +27,14 @@ import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
 function SignUpForm() {
 
   // loader is loading when submit the form
-<<<<<<< HEAD
   // const[isLoading,setIsLoading] = useState(false);
-  const { toast } = useToast();
-  console.log(useCreateUserAccount())
   const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount();
-=======
-  const[isLoading,setIsLoading] = useState(false);
+  // sigin in a account
+  const { mutateAsync: signInAccount, isLoading: isSigningIn } = useSignInAccount();
+
   // adding toster
   const { toast } = useToast();
->>>>>>> 561cac9 (added)
+
 
   // 1. Define form.
   // Zod schemas are TypeScript types. This means can use them 
@@ -68,6 +63,15 @@ function SignUpForm() {
     if(!newUser){
       return toast({
         title:'Sign Up failed. Please try again.'
+      })
+    }
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    })
+    if(!session){
+      return toast({
+        title:'Sign in failed, Please try again!'
       })
     }
     console.log(newUser);//data base form
